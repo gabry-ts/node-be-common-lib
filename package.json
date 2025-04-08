@@ -24,20 +24,24 @@
   ],
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.x.x",
-    "@nestjs/common": "^9.x.x"
+    "@nestjs/common": "^9.x.x",
+    "aws-sdk": "^2.1692.0",
+    "nodemailer": "^6.10.0"
   },
   "devDependencies": {
     "@types/jest": "^29.x.x",
-    "@types/node": "^18.x.x",
+    "@types/node": "^22.14.0",
+    "@types/nodemailer": "^6.4.17",
     "@typescript-eslint/eslint-plugin": "^6.x.x",
     "@typescript-eslint/parser": "^6.x.x",
-    "jest": "^29.x.x",
-    "ts-jest": "^29.x.x",
-    "typescript": "^5.x.x",
     "eslint": "^8.x.x",
     "eslint-config-prettier": "^8.x.x",
     "eslint-plugin-prettier": "^4.x.x",
-    "prettier": "^2.x.x"
+    "jest": "^29.x.x",
+    "prettier": "^2.x.x",
+    "ts-jest": "^29.x.x",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   },
   "engines": {
     "node": ">=14.0.0"
