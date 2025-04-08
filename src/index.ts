@@ -1,2 +1,3 @@
 // export all types for TypeScript users
-export * from './cognito/service';
+export * from './cognito';
+export * from './email';
