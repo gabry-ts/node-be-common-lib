@@ -1,4 +1,4 @@
-import { OtpGenerator } from './OtpGenerator';
+import { OtpGenerator } from '../OtpGenerator';
 import { randomBytes } from 'crypto';
 
 // Mock crypto.randomBytes

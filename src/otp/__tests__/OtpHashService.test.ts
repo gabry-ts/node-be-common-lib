@@ -1,4 +1,4 @@
-import { OtpHashService } from './OtpHashService';
+import { OtpHashService } from '../OtpHashService';
 import { createHmac, timingSafeEqual } from 'crypto';
 
 // Mock crypto functions

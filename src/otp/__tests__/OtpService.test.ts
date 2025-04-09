@@ -1,11 +1,11 @@
-import { OtpService } from './OtpService';
-import { OtpGenerator } from './OtpGenerator';
-import { OtpHashService } from './OtpHashService';
-import { DEFAULT_OTP_OPTIONS, HashOptions } from './types';
+import { OtpService } from '../OtpService';
+import { OtpGenerator } from '../OtpGenerator';
+import { OtpHashService } from '../OtpHashService';
+import { DEFAULT_OTP_OPTIONS, HashOptions } from '../types';
 
 // Mock dependencies
-jest.mock('./OtpGenerator');
-jest.mock('./OtpHashService');
+jest.mock('../OtpGenerator');
+jest.mock('../OtpHashService');
 
 describe('OtpService', () => {
   // Mock implementations

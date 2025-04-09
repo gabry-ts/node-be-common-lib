@@ -1,6 +1,6 @@
-import { NodemailerSender } from './NodemailerSender';
+import { NodemailerSender } from '../NodemailerSender';
 import * as nodemailer from 'nodemailer';
-import { EmailData, SmtpConfig } from './types';
+import { EmailData, SmtpConfig } from '../types';
 
 // Mock nodemailer
 jest.mock('nodemailer');

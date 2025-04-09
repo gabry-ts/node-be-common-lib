@@ -1,4 +1,4 @@
-import { CognitoService } from './CognitoService';
+import { CognitoService } from '../CognitoService';
 import {
   CognitoIdentityProviderClient,
   AdminSetUserPasswordCommand,

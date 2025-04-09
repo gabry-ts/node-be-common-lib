@@ -1,11 +1,11 @@
-import { EmailSenderFactory } from './EmailSenderFactory';
-import { AwsSender } from './AwsSender';
-import { NodemailerSender } from './NodemailerSender';
-import { SmtpConfigWithType, AwsConfigWithType } from './types';
+import { EmailSenderFactory } from '../EmailSenderFactory';
+import { AwsSender } from '../AwsSender';
+import { NodemailerSender } from '../NodemailerSender';
+import { SmtpConfigWithType, AwsConfigWithType } from '../types';
 
 // Mock implementation classes
-jest.mock('./AwsSender');
-jest.mock('./NodemailerSender');
+jest.mock('../AwsSender');
+jest.mock('../NodemailerSender');
 
 describe('EmailSenderFactory', () => {
   beforeEach(() => {
