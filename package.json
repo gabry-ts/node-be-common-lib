@@ -1,20 +1,24 @@
 {
-  "name": "aws-cognito-service",
+  "name": "@tih/common",
   "version": "1.0.0",
-  "description": "TypeScript service for AWS Cognito operations",
+  "description": "Common TypeScript utilities for auth, email, and OTP operations",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",
     "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
     "lint": "eslint \"src/**/*.ts\""
   },
   "keywords": [
     "aws",
     "cognito",
     "authentication",
-    "user-management"
+    "user-management",
+    "email",
+    "otp"
   ],
   "author": "",
   "license": "MIT",
@@ -34,6 +38,7 @@
     "@types/nodemailer": "^6.4.17",
     "@typescript-eslint/eslint-plugin": "^6.x.x",
     "@typescript-eslint/parser": "^6.x.x",
+    "aws-sdk-client-mock": "^4.1.0",
     "eslint": "^8.x.x",
     "eslint-config-prettier": "^8.x.x",
     "eslint-plugin-prettier": "^4.x.x",
@@ -45,5 +50,8 @@
   },
   "engines": {
     "node": ">=14.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
