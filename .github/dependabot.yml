@@ -1,0 +1,34 @@
+version: 2
+updates:
+  # enable version updates for npm
+  - package-ecosystem: "npm"
+    # look for package.json and yarn.lock files in the root directory
+    directory: "/"
+    # check for updates once a week (on Monday)
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    # set reviewers for pull requests
+    reviewers:
+      - "owner"
+    # group all updates together
+    groups:
+      dependencies:
+        patterns:
+          - "*"
+    # specify version update settings
+    versioning-strategy: increase
+    # set a limit for open pull requests
+    open-pull-requests-limit: 10
+    # ignore certain packages
+    ignore:
+      # ignore major version updates for aws-sdk dependencies
+      - dependency-name: "@aws-sdk/*"
+        update-types: ["version-update:semver-major"]
+
+  # enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
