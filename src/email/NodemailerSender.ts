@@ -37,6 +37,7 @@ export class NodemailerSender extends EmailSender {
       await this.transporter.verify();
       return true;
     } catch (error) {
+      console.error('SMTP connection verification failed:', error);
       return false;
     }
   }
