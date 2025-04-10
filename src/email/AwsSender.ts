@@ -94,6 +94,7 @@ export class AwsSender extends EmailSender {
       await this.ses.getSendQuota().promise();
       return true;
     } catch (error) {
+      console.error('AWS SES credentials are invalid:', error);
       return false;
     }
   }

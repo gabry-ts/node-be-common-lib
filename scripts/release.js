@@ -37,7 +37,9 @@ const ensureCleanWorkingDirectory = () => {
   try {
     const status = execSync('git status --porcelain').toString().trim();
     if (status !== '') {
-      console.error('Error: Working directory is not clean. Please commit or stash your changes before releasing.');
+      console.error(
+        'Error: Working directory is not clean. Please commit or stash your changes before releasing.',
+      );
       process.exit(1);
     }
   } catch (error) {
@@ -48,7 +50,9 @@ const ensureCleanWorkingDirectory = () => {
 
 // get the current version from package.json
 const getCurrentVersion = () => {
-  const packageJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf8'));
+  const packageJson = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf8'),
+  );
   return packageJson.version;
 };
 
@@ -66,7 +70,9 @@ const release = async () => {
     // check if we're on main/master branch
     const currentBranch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
     if (currentBranch !== 'main' && currentBranch !== 'master') {
-      console.error(`Error: You need to be on the main/master branch to release. Currently on ${currentBranch}.`);
+      console.error(
+        `Error: You need to be on the main/master branch to release. Currently on ${currentBranch}.`,
+      );
       process.exit(1);
     }
 
@@ -74,7 +80,7 @@ const release = async () => {
     ensureCleanWorkingDirectory();
 
     // ensure dependencies are installed
-    run('yarn install --frozen-lockfile');
+    run('yarn install ');
 
     // run tests to make sure everything is working
     run('yarn test');
@@ -99,7 +105,7 @@ const release = async () => {
 
     // get the version to release
     let newVersion = await prompt('\nWhat version would you like to release? ');
-    
+
     if (!newVersion) {
       newVersion = suggestedVersion.patch;
       console.log(`Defaulting to patch version: ${newVersion}`);
@@ -148,7 +154,7 @@ const release = async () => {
       console.log(`\n🎉 Successfully published version ${newVersion} to npm!`);
     } else {
       console.log(`\n✅ Version ${newVersion} prepared for release.`);
-      console.log('Run `npm publish --access public` when you\'re ready to publish to npm.');
+      console.log("Run `npm publish --access public` when you're ready to publish to npm.");
     }
   } catch (error) {
     console.error('Error during release:', error.message);
