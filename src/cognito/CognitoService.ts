@@ -10,6 +10,7 @@ import {
   InitiateAuthCommand,
   AdminGetUserCommand,
   AttributeType,
+  GetUserCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { Logger } from '@nestjs/common';
 
@@ -22,6 +23,7 @@ import {
   LoginParams,
   RefreshTokenParams,
   AuthResult,
+  VerifyTokenResult,
 } from './types';
 
 /**
@@ -444,6 +446,52 @@ export class CognitoService {
     } catch (error) {
       this.logger.error(`error getting user details: ${error}`);
       return null;
+    }
+  }
+
+  /**
+   * verify a bearer token
+   * @param {string} token - the bearer token to verify
+   * @returns {Promise<Object>} - verification result with user information or error
+   * @returns {boolean} result.success - whether the token is valid
+   * @returns {string} [result.username] - the username of the token owner (if valid)
+   * @returns {Object<string, string>} [result.attributes] - user attributes (if valid)
+   * @returns {string} [result.error] - error message (if invalid)
+   */
+  async verifyToken(token: string): Promise<VerifyTokenResult> {
+    try {
+      const command = new GetUserCommand({
+        AccessToken: token,
+      });
+
+      const response = await this.client.send(command);
+
+      if (!response.Username || !response.UserAttributes) {
+        return {
+          success: false,
+          error: 'invalid token or missing user information',
+        };
+      }
+
+      // convert attributes array to an object
+      const attributes: Record<string, string> = {};
+      response.UserAttributes.forEach((attr) => {
+        if (attr.Name && attr.Value) {
+          attributes[attr.Name] = attr.Value;
+        }
+      });
+
+      return {
+        success: true,
+        username: response.Username,
+        attributes,
+      };
+    } catch (error) {
+      this.logger.error(`error verifying token: ${error}`);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+      };
     }
   }
 }

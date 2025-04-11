@@ -107,3 +107,10 @@ export interface AuthResult {
   /** error message if the operation failed */
   error?: string;
 }
+
+export interface VerifyTokenResult {
+  success: boolean;
+  username?: string;
+  attributes?: Record<string, string>;
+  error?: string;
+}
