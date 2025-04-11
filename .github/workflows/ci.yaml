@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout code # è buona norma dare nomi ai passi
+      - name: checkout code
         uses: actions/checkout@v4
       - name: setup node
         uses: actions/setup-node@v4
@@ -19,8 +19,8 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
-      - name: install dependencies # installa qui
-        run: pnpm install --frozen-lockfile
+      - name: install dependencies
+        run: pnpm install
       - name: build project
         run: pnpm build
 
@@ -38,7 +38,7 @@ jobs:
         with:
           version: 8
       - name: install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       - name: run tests
         run: pnpm test
 
@@ -56,6 +56,6 @@ jobs:
         with:
           version: 8
       - name: install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       - name: run lint check
         run: pnpm lint --check
