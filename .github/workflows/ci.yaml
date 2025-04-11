@@ -58,4 +58,4 @@ jobs:
       - name: install dependencies
         run: pnpm install
       - name: run lint check
-        run: pnpm lint --check
+        run: pnpm lint
