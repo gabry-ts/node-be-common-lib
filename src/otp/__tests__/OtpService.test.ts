@@ -22,7 +22,7 @@ describe('OtpService', () => {
     mockVerifyHash.mockReturnValue(true);
 
     // Apply mocks to classes
-    (OtpGenerator as any as jest.Mock).mockImplementation(() => ({
+    (OtpGenerator as unknown as jest.Mock).mockImplementation(() => ({
       generate: mockGenerate,
       setOptions: jest.fn(),
     }));

@@ -136,9 +136,9 @@ export class S3Service {
 
       const response = await this.s3Client.send(command);
       return response.Metadata;
-    } catch (_error) {
+    } catch (error) {
       // assume file doesn't exist if error occurs
-
+      console.error(`Error fetching metadata for ${key}:`, error);
       return undefined;
     }
   }
