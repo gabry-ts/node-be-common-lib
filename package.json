@@ -1,5 +1,5 @@
 {
-  "name": "@tih/common",
+  "name": "@gab-ts/node-be-common-lib",
   "version": "1.0.0",
   "description": "Common TypeScript utilities for auth, email, and OTP operations",
   "main": "dist/index.js",
