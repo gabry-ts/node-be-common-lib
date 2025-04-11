@@ -1,4 +1,25 @@
 #!/usr/bin/env sh
 . "$(dirname "$0")/_/husky.sh"
 
-pnpm lint-staged
+echo "Running lint and build before push..."
+
+pnpm lint
+
+if git diff --quiet; then
+  echo "No linting changes to commit."
+else
+  echo "Linting has made changes. Committing..."
+  git add -A                                 # Aggiungi tutti i file modificati
+  git commit -m "chore: Apply linting fixes" # Committa le modifiche
+fi
+
+# Esegui la build
+pnpm build
+
+# Verifica lo stato della build
+if [ $? -ne 0 ]; then
+  echo "Build failed. Aborting push."
+  exit 1
+fi
+
+echo "Lint and build checks passed."

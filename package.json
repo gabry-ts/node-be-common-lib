@@ -18,13 +18,6 @@
     "prebuild": "npm run clean",
     "prepublishOnly": "npm run build"
   },
-  "lint-staged": {
-    "*.ts": [
-      "pnpm lint",
-      "pnpm build",
-      "git add -A"
-    ]
-  },
   "keywords": [
     "aws",
     "cognito",
