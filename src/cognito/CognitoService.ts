@@ -11,6 +11,7 @@ import {
   AdminGetUserCommand,
   AttributeType,
   GetUserCommand,
+  AuthenticationResultType,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { Logger } from '@nestjs/common';
 
@@ -271,21 +272,7 @@ export class CognitoService {
 
       const response = await this.client.send(command);
 
-      if (!response.AuthenticationResult) {
-        return {
-          success: false,
-          error: 'no authentication result returned',
-        };
-      }
-
-      return {
-        success: true,
-        accessToken: response.AuthenticationResult.AccessToken,
-        idToken: response.AuthenticationResult.IdToken,
-        refreshToken: response.AuthenticationResult.RefreshToken || params.refreshToken,
-        expiresIn: response.AuthenticationResult.ExpiresIn,
-        tokenType: response.AuthenticationResult.TokenType,
-      };
+      return this.validateAndGetAuthenticationResult(response.AuthenticationResult);
     } catch (error) {
       this.logger.error(`error refreshing token: ${error}`);
       return {
@@ -293,6 +280,43 @@ export class CognitoService {
         error: error instanceof Error ? error.message : String(error),
       };
     }
+  }
+
+  private validateAndGetAuthenticationResult(
+    data: AuthenticationResultType | undefined,
+  ): AuthResult {
+    const resultError = { success: false, error: 'no authentication result returned' };
+    if (!data) return resultError;
+
+    if (!data.AccessToken) {
+      resultError.error = 'no access token returned';
+      return resultError;
+    }
+    if (!data.IdToken) {
+      resultError.error = 'no id token returned';
+      return resultError;
+    }
+    if (!data.RefreshToken) {
+      resultError.error = 'no refresh token returned';
+      return resultError;
+    }
+    if (!data.ExpiresIn) {
+      resultError.error = 'no expiration time returned';
+      return resultError;
+    }
+    if (!data.TokenType) {
+      resultError.error = 'no token type returned';
+      return resultError;
+    }
+
+    return {
+      success: true,
+      accessToken: data.AccessToken,
+      idToken: data.IdToken,
+      refreshToken: data.RefreshToken,
+      expiresIn: data.ExpiresIn,
+      tokenType: data.TokenType,
+    };
   }
 
   /**
@@ -335,21 +359,7 @@ export class CognitoService {
         };
       }
 
-      if (!response.AuthenticationResult) {
-        return {
-          success: false,
-          error: 'no authentication result returned',
-        };
-      }
-
-      return {
-        success: true,
-        accessToken: response.AuthenticationResult.AccessToken,
-        idToken: response.AuthenticationResult.IdToken,
-        refreshToken: response.AuthenticationResult.RefreshToken,
-        expiresIn: response.AuthenticationResult.ExpiresIn,
-        tokenType: response.AuthenticationResult.TokenType,
-      };
+      return this.validateAndGetAuthenticationResult(response.AuthenticationResult);
     } catch (error) {
       this.logger.error(`error logging in: ${error}`);
       return {
@@ -392,21 +402,7 @@ export class CognitoService {
 
       const response = await this.client.send(command);
 
-      if (!response.AuthenticationResult) {
-        return {
-          success: false,
-          error: 'no authentication result returned',
-        };
-      }
-
-      return {
-        success: true,
-        accessToken: response.AuthenticationResult.AccessToken,
-        idToken: response.AuthenticationResult.IdToken,
-        refreshToken: response.AuthenticationResult.RefreshToken,
-        expiresIn: response.AuthenticationResult.ExpiresIn,
-        tokenType: response.AuthenticationResult.TokenType,
-      };
+      return this.validateAndGetAuthenticationResult(response.AuthenticationResult);
     } catch (error) {
       this.logger.error(`error responding to new password challenge: ${error}`);
       return {

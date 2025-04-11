@@ -203,24 +203,6 @@ export class LoggerService {
   }
 
   /**
-   * get message type based on log level
-   */
-  private getMessageType(level: LogLevel): string {
-    switch (level) {
-      case LogLevel.ERROR:
-        return 'Error';
-      case LogLevel.WARN:
-        return 'Warn';
-      case LogLevel.DEBUG:
-        return 'Debug';
-      case LogLevel.VERBOSE:
-        return 'Verbose';
-      default:
-        return 'Normal';
-    }
-  }
-
-  /**
    * get formatted timestamp in format HH:MM DD/MM/YY
    */
   private getTimestamp(): string {
