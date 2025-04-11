@@ -136,8 +136,9 @@ export class S3Service {
 
       const response = await this.s3Client.send(command);
       return response.Metadata;
-    } catch (error) {
+    } catch (_error) {
       // assume file doesn't exist if error occurs
+
       return undefined;
     }
   }
