@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "prepare": "",
+    "prepare": "husky",
     "release": "node scripts/release.js",
     "test": "jest",
     "test:coverage": "jest --coverage",
@@ -17,6 +17,13 @@
     "clean": "rimraf dist coverage docs",
     "prebuild": "npm run clean",
     "prepublishOnly": "npm run build"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "pnpm lint",
+      "pnpm build",
+      "git add -A"
+    ]
   },
   "keywords": [
     "aws",
@@ -58,8 +65,9 @@
     "eslint-plugin-jest": "^28.11.0",
     "eslint-plugin-prettier": "^5.x.x",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
     "jest": "^29.x.x",
-    "lint-staged": "^15.x.x",
+    "lint-staged": "^15.5.1",
     "prettier": "^3.x.x",
     "rimraf": "^6.x.x",
     "semver": "^7.x.x",
