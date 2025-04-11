@@ -10,6 +10,7 @@ import {
   AdminRespondToAuthChallengeCommand,
   InitiateAuthCommand,
   AdminGetUserCommand,
+  GetUserCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { Logger } from '@nestjs/common';
 import { mockClient } from 'aws-sdk-client-mock';
@@ -712,6 +713,106 @@ describe('CognitoService', () => {
       // Assert
       expect(result).toEqual({
         email: 'test@example.com',
+      });
+    });
+  });
+
+  describe('verifyToken', () => {
+    it('should verify token successfully', async () => {
+      // Arrange
+      mockCognitoClient.on(GetUserCommand).resolves({
+        Username: 'testuser',
+        UserAttributes: [
+          { Name: 'email', Value: 'test@example.com' },
+          { Name: 'email_verified', Value: 'true' },
+          { Name: 'custom:role', Value: 'admin' },
+        ],
+      });
+
+      // Act
+      const result = await cognitoService.verifyToken('valid-access-token');
+
+      // Assert
+      expect(result).toEqual({
+        success: true,
+        username: 'testuser',
+        attributes: {
+          email: 'test@example.com',
+          email_verified: 'true',
+          'custom:role': 'admin',
+        },
+      });
+      const commandCalls = mockCognitoClient.commandCalls(GetUserCommand);
+      expect(commandCalls.length).toBe(1);
+      expect(commandCalls[0].args[0].input).toEqual({
+        AccessToken: 'valid-access-token',
+      });
+    });
+
+    it('should handle missing username', async () => {
+      // Arrange
+      mockCognitoClient.on(GetUserCommand).resolves({
+        UserAttributes: [{ Name: 'email', Value: 'test@example.com' }],
+      });
+
+      // Act
+      const result = await cognitoService.verifyToken('invalid-token');
+
+      // Assert
+      expect(result).toEqual({
+        success: false,
+        error: 'invalid token or missing user information',
+      });
+    });
+
+    it('should handle missing user attributes', async () => {
+      // Arrange
+      mockCognitoClient.on(GetUserCommand).resolves({
+        Username: 'testuser',
+      });
+
+      // Act
+      const result = await cognitoService.verifyToken('invalid-token');
+
+      // Assert
+      expect(result).toEqual({
+        success: false,
+        error: 'invalid token or missing user information',
+      });
+    });
+
+    it('should handle error when verifying token', async () => {
+      // Arrange
+      mockCognitoClient.on(GetUserCommand).rejects(new Error('Token expired'));
+
+      // Act
+      const result = await cognitoService.verifyToken('expired-token');
+
+      // Assert
+      expect(result).toEqual({
+        success: false,
+        error: 'Token expired',
+      });
+      expect(mockLogger.error).toHaveBeenCalled();
+    });
+
+    it('should skip attributes without name or value', async () => {
+      // Arrange
+      mockCognitoClient.on(GetUserCommand).resolves({
+        Username: 'testuser',
+        UserAttributes: [{ Name: 'email', Value: 'test@example.com' }, { Name: 'phone_number' }],
+      });
+
+      // Act
+      const result = await cognitoService.verifyToken('valid-token');
+
+      // Assert
+      expect(result).toEqual({
+        success: true,
+        username: 'testuser',
+        attributes: {
+          email: 'test@example.com',
+        },
       });
     });
   });

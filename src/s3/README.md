@@ -10,18 +10,15 @@ This module provides a service to interact with AWS S3 for object storage operat
 ## Usage
 
 ```typescript
-import { S3Service, S3Config, UploadParams } from '@tih/common';
+import { S3Service, S3Config } from '@tih/common';
 import { Logger } from '@nestjs/common';
-import { readFileSync } from 'fs';
 
 // create configuration
 const s3Config: S3Config = {
   region: 'eu-west-1',
-  // credentials can be omitted if handled by environment variables or iam roles
-  // credentials: {
-  //   accessKeyId: 'YOUR_ACCESS_KEY',
-  //   secretAccessKey: 'YOUR_SECRET_KEY',
-  // },
+  accessKeyId: 'YOUR_ACCESS_KEY',
+  secretAccessKey: 'YOUR_SECRET_KEY',
+  bucketName: 'your-bucket-name',
   logger: new Logger('S3Service'), // optional
 };
 
@@ -33,45 +30,72 @@ async function uploadMyFile() {
   const filePath = './my-local-file.txt';
   const fileContent = readFileSync(filePath);
 
-  const uploadParams: UploadParams = {
-    bucket: 'your-bucket-name',
-    key: 'path/in/s3/my-file.txt',
-    body: fileContent,
-    contentType: 'text/plain',
-    // acl: 'public-read', // optional
-    metadata: {
-      // optional
-      'custom-data': 'some value',
-    },
-  };
-
   try {
-    const result = await s3Service.uploadObject(uploadParams);
-    console.log(`upload successful: etag=${result.ETag}, versionid=${result.VersionId}`);
-    // get public url (if applicable)
-    const url = s3Service.getObjectUrl({ bucket: uploadParams.bucket, key: uploadParams.key });
-    console.log(`object url: ${url}`);
+    await s3Service.uploadFile('path/in/s3/my-file.txt', fileContent, {
+      contentType: 'text/plain',
+    });
+    console.log('upload successful');
   } catch (error) {
     console.error('upload failed:', error);
   }
 }
 
-// example: generate presigned url for download
+// example: download a file
+async function downloadMyFile() {
+  try {
+    const fileContent = await s3Service.getFile('path/in/s3/my-file.txt');
+    writeFileSync('./my-downloaded-file.txt', fileContent);
+    console.log('download successful');
+  } catch (error) {
+    console.error('download failed:', error);
+  }
+}
+
+// example: delete a file
+async function deleteMyFile() {
+  try {
+    await s3Service.deleteFile('path/in/s3/my-file.txt');
+    console.log('delete successful');
+  } catch (error) {
+    console.error('delete failed:', error);
+  }
+}
+
+// example: list files in a bucket
+async function listMyFiles() {
+  try {
+    const files = await s3Service.listFiles('path/in/s3/');
+    console.log('files:', files);
+  } catch (error) {
+    console.error('list failed:', error);
+  }
+}
+
+// example: copy a file
+async function copyMyFile() {
+  try {
+    await s3Service.copyFile('path/in/s3/my-file.txt', 'path/in/s3/my-file-copy.txt');
+    console.log('copy successful');
+  } catch (error) {
+    console.error('copy failed:', error);
+  }
+}
+
+// example: generate a presigned url for download
 async function getDownloadLink() {
   try {
-    const url = await s3Service.generatePresignedUrl({
-      bucket: 'your-bucket-name',
-      key: 'path/in/s3/my-file.txt',
-      expiresInSeconds: 3600, // 1 hour
-      operation: 'getObject',
-    });
-    console.log(`presigned download url: ${url}`);
-    return url;
+    const url = await s3Service.getPresignedUrl('path/in/s3/my-file.txt', 3600); // 1 hour
+    console.log('presigned download url:', url);
   } catch (error) {
     console.error('failed to generate presigned url:', error);
   }
 }
 
 uploadMyFile();
+downloadMyFile();
+deleteMyFile();
+listMyFiles();
+copyMyFile();
 getDownloadLink();
+``;
 ```

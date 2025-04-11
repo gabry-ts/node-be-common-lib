@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: install dependencies
+        run: pnpm install
+      - name: build project
+        run: pnpm build
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: install dependencies
+        run: pnpm install
+      - name: run tests
+        run: pnpm test
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: install dependencies
+        run: pnpm install
+      - name: run lint check
+        run: pnpm lint
