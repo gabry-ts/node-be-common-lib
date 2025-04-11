@@ -6,7 +6,7 @@
   "type": "module",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "prepare": "husky",
     "release": "node scripts/release.js",
     "test": "jest",
