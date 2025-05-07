@@ -28,7 +28,7 @@ export class OtpGenerator {
     randomValues.set(randomBytes(randomBytesNeeded));
     // generate otp using the random values
     for (let i = 0; i < length!; i++) {
-      const randomIndex = randomValues[i] % chars.length;
+      const randomIndex = (randomValues[i] ?? 0) % chars.length;
       otp += chars.charAt(randomIndex);
     }
 

@@ -12,12 +12,13 @@ import {
 export class OtpService {
   private generator: OtpGenerator;
   private hashService: OtpHashService;
-  private expiryTimeMs: number | null;
+  private expiryTimeMs: number;
+  private static readonly DEFAULT_EXPIRY_TIME_MS = 10 * 60 * 1000;
 
   constructor(
     options: OtpOptions = DEFAULT_OTP_OPTIONS,
     hashOptions: HashOptions = {},
-    expiryTimeMs: number | null = null,
+    expiryTimeMs = OtpService.DEFAULT_EXPIRY_TIME_MS,
   ) {
     this.generator = new OtpGenerator(options);
     this.hashService = new OtpHashService(hashOptions);
@@ -35,16 +36,10 @@ export class OtpService {
     // create hash for the otp
     const hash = this.hashService.createHash(otp);
 
-    // calculate expiry time if set
-    let expiresAt: Date | undefined = undefined;
-    if (this.expiryTimeMs) {
-      expiresAt = new Date(Date.now() + this.expiryTimeMs);
-    }
-
     return {
       otp,
       hash,
-      expiresAt,
+      expiresAt: new Date(Date.now() + this.expiryTimeMs),
     };
   }
 

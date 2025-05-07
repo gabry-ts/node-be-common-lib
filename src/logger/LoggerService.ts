@@ -91,7 +91,7 @@ export class LoggerService {
   /**
    * log method for standard logs
    */
-  log(...args: any[]): void {
+  log(...args: unknown[]): void {
     if (this.logLevel <= LogLevel.LOG) {
       this.printMessage(args, LogLevel.LOG);
     }
@@ -100,7 +100,7 @@ export class LoggerService {
   /**
    * error method for error logs
    */
-  error(...args: any[]): void {
+  error(...args: unknown[]): void {
     if (this.logLevel <= LogLevel.ERROR) {
       this.printMessage(args, LogLevel.ERROR);
     }
@@ -109,7 +109,7 @@ export class LoggerService {
   /**
    * warn method for warning logs
    */
-  warn(...args: any[]): void {
+  warn(...args: unknown[]): void {
     if (this.logLevel <= LogLevel.WARN) {
       this.printMessage(args, LogLevel.WARN);
     }
@@ -118,7 +118,7 @@ export class LoggerService {
   /**
    * debug method for debug logs
    */
-  debug(...args: any[]): void {
+  debug(...args: unknown[]): void {
     if (this.logLevel <= LogLevel.DEBUG) {
       this.printMessage(args, LogLevel.DEBUG);
     }
@@ -127,7 +127,7 @@ export class LoggerService {
   /**
    * verbose method for verbose logs
    */
-  verbose(...args: any[]): void {
+  verbose(...args: unknown[]): void {
     if (this.logLevel <= LogLevel.VERBOSE) {
       this.printMessage(args, LogLevel.VERBOSE);
     }
@@ -136,7 +136,7 @@ export class LoggerService {
   /**
    * http method for http logs
    */
-  http(data: any): void {
+  http(data: unknown): void {
     if (this.logLevel <= LogLevel.LOG) {
       this.printHttpMessage(data);
     }
@@ -145,7 +145,7 @@ export class LoggerService {
   /**
    * print formatted message with colors
    */
-  private printMessage(args: any[], level: LogLevel): void {
+  private printMessage(args: unknown[], level: LogLevel): void {
     const color = this.getColorByLogLevel(level);
 
     let timestamp = '';
@@ -170,7 +170,7 @@ export class LoggerService {
   /**
    * print http message in json format
    */
-  private printHttpMessage(data: any): void {
+  private printHttpMessage(data: unknown): void {
     // get timestamp if enabled
     let timestamp = '';
     if (this.showTimestamp) {
@@ -199,24 +199,6 @@ export class LoggerService {
         return COLORS.VERBOSE;
       default:
         return COLORS.LOG;
-    }
-  }
-
-  /**
-   * get message type based on log level
-   */
-  private getMessageType(level: LogLevel): string {
-    switch (level) {
-      case LogLevel.ERROR:
-        return 'Error';
-      case LogLevel.WARN:
-        return 'Warn';
-      case LogLevel.DEBUG:
-        return 'Debug';
-      case LogLevel.VERBOSE:
-        return 'Verbose';
-      default:
-        return 'Normal';
     }
   }
 

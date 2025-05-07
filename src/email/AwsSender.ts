@@ -22,7 +22,7 @@ export class AwsSender extends EmailSender {
   }
 
   // send email using aws ses
-  async send(emailData: EmailData): Promise<any> {
+  async send(emailData: EmailData): Promise<nodemailer.SentMessageInfo> {
     try {
       // handle emails with attachments
       if (emailData.attachments && emailData.attachments.length > 0) {
@@ -36,7 +36,7 @@ export class AwsSender extends EmailSender {
   }
 
   // send simple email without attachments
-  private async sendSimpleEmail(emailData: EmailData): Promise<any> {
+  private async sendSimpleEmail(emailData: EmailData): Promise<nodemailer.SentMessageInfo> {
     // prepare the parameters for sending email
     const params: SendEmailRequest = {
       Source: emailData.from,
@@ -70,7 +70,7 @@ export class AwsSender extends EmailSender {
   }
 
   // send email with attachments using raw email
-  private async sendWithAttachments(emailData: EmailData): Promise<any> {
+  private async sendWithAttachments(emailData: EmailData): Promise<nodemailer.SentMessageInfo> {
     // for ses, we need to use sendRawEmail for attachments
     // create a nodemailer transporter to generate raw email
     const rawMailer = nodemailer.createTransport({

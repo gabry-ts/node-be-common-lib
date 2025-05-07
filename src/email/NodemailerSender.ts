@@ -13,7 +13,7 @@ export class NodemailerSender extends EmailSender {
   }
 
   // send email using nodemailer
-  async send(emailData: EmailData): Promise<any> {
+  async send(emailData: EmailData): Promise<nodemailer.SentMessageInfo> {
     try {
       // send mail with defined transport object
       const info = await this.transporter.sendMail({

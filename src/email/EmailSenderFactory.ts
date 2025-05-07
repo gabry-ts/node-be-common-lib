@@ -12,7 +12,9 @@ export class EmailSenderFactory {
     } else if (config.type === 'aws') {
       return new AwsSender(config as AwsConfig);
     } else {
-      throw new Error(`unsupported email sender type: ${(config as any).type}`);
+      throw new Error(
+        `unsupported email sender type: ${(config as unknown as Record<string, string>)?.type}`,
+      );
     }
   }
 }

@@ -1,7 +1,7 @@
 import { EmailSenderFactory } from '../EmailSenderFactory';
 import { AwsSender } from '../AwsSender';
 import { NodemailerSender } from '../NodemailerSender';
-import { SmtpConfigWithType, AwsConfigWithType } from '../types';
+import { SmtpConfigWithType, AwsConfigWithType, EmailConfig } from '../types';
 
 // Mock implementation classes
 jest.mock('../AwsSender');
@@ -54,8 +54,7 @@ describe('EmailSenderFactory', () => {
     // Arrange
     const invalidConfig = {
       type: 'invalid-type',
-      // other properties
-    } as any;
+    } as unknown as EmailConfig;
 
     // Act & Assert
     expect(() => {
