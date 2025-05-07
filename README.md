@@ -1,13 +1,13 @@
-# @tih/common
+# @tinhub/common
 
 A fully typed TypeScript library for common utilities including AWS Cognito user management, email sending, and OTP operations.
 
 ## Installation
 
 ```bash
-npm install @tih/common
+npm install @tinhub/common
 # or
-yarn add @tih/common
+yarn add @tinhub/common
 ```
 
 ## Features
@@ -21,7 +21,7 @@ yarn add @tih/common
 ### Cognito Service
 
 ```typescript
-import { CognitoService, CognitoServiceConfig } from '@tih/common';
+import { CognitoService, CognitoServiceConfig } from '@tinhub/common';
 import { Logger } from '@nestjs/common';
 
 // Create a configuration
@@ -66,7 +66,7 @@ async function loginUser() {
 ### Email Service
 
 ```typescript
-import { EmailSenderFactory, EmailData } from '@tih/common';
+import { EmailSenderFactory, EmailData } from '@tinhub/common';
 
 // Create an AWS SES email sender
 const awsSender = EmailSenderFactory.createSender({
@@ -110,7 +110,7 @@ async function sendEmail() {
 ### OTP Service
 
 ```typescript
-import { OtpService } from '@tih/common';
+import { OtpService } from '@tinhub/common';
 
 // Create OTP service with default options (6-digit numeric OTP)
 const otpService = new OtpService();

@@ -11,7 +11,7 @@ The module exports:
 ## Usage
 
 ```typescript
-import { OtpService } from '@tih/common';
+import { OtpService } from '@tinhub/common';
 
 // Create OTP service with default options (6-digit numeric OTP)
 const otpService = new OtpService();

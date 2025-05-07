@@ -12,7 +12,7 @@ The module exports:
 ## Usage
 
 ```typescript
-import { EmailSenderFactory, EmailData } from '@tih/common';
+import { EmailSenderFactory, EmailData } from '@tinhub/common';
 
 // Create an AWS SES email sender
 const awsSender = EmailSenderFactory.createSender({

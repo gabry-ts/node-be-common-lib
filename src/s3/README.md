@@ -10,7 +10,7 @@ This module provides a service to interact with AWS S3 for object storage operat
 ## Usage
 
 ```typescript
-import { S3Service, S3Config } from '@tih/common';
+import { S3Service, S3Config } from '@tinhub/common';
 import { Logger } from '@nestjs/common';
 
 // create configuration

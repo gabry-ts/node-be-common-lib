@@ -12,7 +12,7 @@ The module exports:
 ## Usage
 
 ```typescript
-import { CognitoService, CognitoServiceConfig } from '@tih/common';
+import { CognitoService, CognitoServiceConfig } from '@tinhub/common';
 
 // Create a configuration
 const config: CognitoServiceConfig = {
