@@ -1,13 +1,13 @@
-# @tinhub/common
+# @tinhub/node-be-common-lib
 
 A fully typed TypeScript library for common utilities including AWS Cognito user management, email sending, and OTP operations.
 
 ## Installation
 
 ```bash
-npm install @tinhub/common
+npm install @tinhub/node-be-common-lib
 # or
-yarn add @tinhub/common
+yarn add @tinhub/node-be-common-lib
 ```
 
 ## Features
@@ -21,7 +21,7 @@ yarn add @tinhub/common
 ### Cognito Service
 
 ```typescript
-import { CognitoService, CognitoServiceConfig } from '@tinhub/common';
+import { CognitoService, CognitoServiceConfig } from '@tinhub/node-be-common-lib';
 import { Logger } from '@nestjs/common';
 
 // Create a configuration
@@ -66,7 +66,7 @@ async function loginUser() {
 ### Email Service
 
 ```typescript
-import { EmailSenderFactory, EmailData } from '@tinhub/common';
+import { EmailSenderFactory, EmailData } from '@tinhub/node-be-common-lib';
 
 // Create an AWS SES email sender
 const awsSender = EmailSenderFactory.createSender({
@@ -110,7 +110,7 @@ async function sendEmail() {
 ### OTP Service
 
 ```typescript
-import { OtpService } from '@tinhub/common';
+import { OtpService } from '@tinhub/node-be-common-lib';
 
 // Create OTP service with default options (6-digit numeric OTP)
 const otpService = new OtpService();

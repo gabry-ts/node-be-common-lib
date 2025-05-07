@@ -12,7 +12,7 @@ The module exports:
 ## Usage
 
 ```typescript
-import { EmailSenderFactory, EmailData } from '@tinhub/common';
+import { EmailSenderFactory, EmailData } from '@tinhub/node-be-common-lib';
 
 // Create an AWS SES email sender
 const awsSender = EmailSenderFactory.createSender({

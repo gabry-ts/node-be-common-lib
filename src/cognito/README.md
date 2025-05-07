@@ -12,7 +12,7 @@ The module exports:
 ## Usage
 
 ```typescript
-import { CognitoService, CognitoServiceConfig } from '@tinhub/common';
+import { CognitoService, CognitoServiceConfig } from '@tinhub/node-be-common-lib';
 
 // Create a configuration
 const config: CognitoServiceConfig = {
